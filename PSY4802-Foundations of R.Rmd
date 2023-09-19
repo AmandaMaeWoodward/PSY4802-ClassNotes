@@ -7,11 +7,12 @@ output: html_document
 
 # Learning Outcomes:
 
-After Today's Lecture, you should be able to do the following: -
-Evaluate mathematical expressions and logical statements in R - Describe
-how to use common R functions - Explain the differences between
-variables, vectors, and dataframes - Explain how to obtain a subset of
-your data - Describe your data effectively
+After Today's Lecture, you should be able to do the following: 
+- Evaluate mathematical expressions and logical statements in R 
+- Describe how to use common R functions 
+- Explain the differences between variables, vectors, and dataframes 
+- Explain how to obtain a subset of your data 
+- Describe your data effectively
 
 # Panels of R Studio
 
@@ -27,13 +28,14 @@ your data - Describe your data effectively
 ## bottom left: console 
 - where code runs (see output here depending on settings) - errors 
 - scratch paper (doesnt save) 
-- install.packages & View
+- `install.packages()` & `View()`
 
 ## bottom right:everything else
 
 **Disclaimer:** I am not a computer programmer. I occasionally use programming words and may use them incorrectly (feel free to correct me!). I prefer to use words like "thing" and "stuff." If it gets confusing, just let me know.
 
 ### code chunks
+
 text goes outside
 
 ```{r}
@@ -47,6 +49,7 @@ text goes outside
 # pc: control + alt+i
 # manual
 ```
+
 ## Learning Outcome 1: Mathematical Expressions and Logical Statements
 
 ### Math
@@ -55,46 +58,51 @@ R can be treated like a big fancy calculator (think scientific calculators you m
 
 #### Addition
 ```{r}
-
+2 +5
 ```
 
 #### Subtraction
 
 ```{r}
-
+16 - 8
 ```
 
 #### Multiplication
 
 ```{r}
-
+3*4
 ```
 
 #### Division
 
 ```{r}
+49/7
 
+3476/87
+
+10%%3 # x divided by y gives you remainder of answer
 ```
 
 #### Square Root
 `sqrt()`
 ```{r}
-
+sqrt(2)
 ```
 
 #### Exponent
 
 ```{r}
-
+7^9
 ```
 
-**Important:** In terms of calculations, R follows PEMDAS (algebra
-throwback). Parentheses are going to be **Really** important.
+**Important:** In terms of calculations, R follows PEMDAS (algebra throwback). Parentheses are going to be **Really** important.
 
 #### More complicated Math:
 
 ```{r}
+ 3+ 4 *6
 
+(3+4)* 6
 ```
 
 ### Logical Statements
@@ -107,32 +115,32 @@ Consider the following sentence:
 
 "Michael Scott on *the Office* is a good manager"
 
-If this sentence was a fact, R would output the word "TRUE." If it was
-not true, R would output the word "FALSE."
+If this sentence was a fact, R would output the word "TRUE." If it was not true, R would output the word "FALSE."
 
 To assess whether logical statements in R are true, we use two equal signs `==`. The above example would look something like this:
 
 ```{r}
-
+"Michael Scott" == "good manager"
 ```
 
-Running this code tells us the statement is false. (**Note**: this is
-because the phrase on the left is not the same as the one on the right..
-as far as I know, R hasn't watched *the Office*).
-
-However, R can compute mathematical expressions. This means we can look
-at something like this:
-
+Running this code tells us the statement is false. (**Note**: this is because the phrase on the left is not the same as the one on the right..as far as I know, R hasn't watched *the Office*).
 ```{r}
-
+"Michael Scott" == "Michael Scott"
 ```
 
-You can also evaluate if statements are **NOT** True. We can do this by
-using the symbol != For instance, I could evaluate Michael Scott as a
-manager by writing:
+However, R can compute mathematical expressions. This means we can look at something like this:
 
 ```{r}
+ 4 == 5
 
+4*7 == 14*2
+```
+
+You can also evaluate if statements are **NOT** True. We can do this by using the symbol `!=` For instance, I could evaluate Michael Scott as a manager by writing:
+
+```{r}
+"Michael Scott" != "good manager"
+"Michael Scott" != "Michael Scott"
 ```
 
 Note: In other words, == is similar to "is" and != is similar to "is not"
@@ -143,50 +151,48 @@ A similar process can be used to determine if something is greater than, less th
 Examples:
 
 ```{r}
-
+6743 > 54 #greater than
+6743 < 54 #less than 
+78>=87 #greater than or equal to
+78 <= 87 #less than or equal to
 ```
 
-We can also make logical statements more complex by creating **and** and
-**or** statements.
-
-(And- both things need to be true Or- only one has to be true)
+We can also make logical statements more complex by creating **and** and **or** statements.(And- both things need to be true Or- only one has to be true)
 
 And statements use `&` OR `&&` (if you have more things to evaluate)
 
 ```{r}
-
+3-1> 8 & 2+4<7
 ```
 
-Or statements use | OR || (if you have more things to evaluate)
+Or statements use `|` OR `||` (if you have more things to evaluate)
 
 ```{r}
-
+3-1> 8 | 2+4<7
 ```
 
 ##### Learning Outcome 1 Practice:
 
 1.  Find the square root of 89
-
 ```{r}
-
+sqrt(89)
 ```
 
 2.  Determine if 3 raised to the 5 power is greater than the square root of ten thousand
 
 ```{r}
-
+3^5>sqrt(10000) #no commas
 ```
 
-3.  Determine if 5 times 7 is less than or equal to 30 or if 4\*8 is equal to 32
+3.  Determine if 5 times 7 is less than or equal to 30 or if 4*8 is equal to 32
 
 ```{r}
-
+5*7<=30 | 4*8==32
 ```
 
 ### Learning Outcome 2: Describe how to use common R functions
 
-A note on R functions: R has built in functions that help us create, manipulate, and transform our data. Generally, we use functions by writing the function name followed by parentheses. We'll talk about more of them throughout this lesson, and during the quarter. Here are some
-that are just generally helpful.
+A note on R functions: R has built in functions that help us create, manipulate, and transform our data. Generally, we use functions by writing the function name followed by parentheses. We'll talk about more of them throughout this lesson, and during the semester. Here are some that are just generally helpful.
 
 If you want to learn more about a function, you can type `?` function name in the console.
 
@@ -194,7 +200,8 @@ The first one we'll talk about is `:`. Typically, it would be used by writing sm
 
 ```{r}
 #"first number: second number"
-
+1:2000
+1000:1
 ```
 
 `rep()` allows you to repeat something a set number of times. Looking at the help file, we can see the arguments contained in the function. To use it, we write `rep(thingToBeRepeated, #ofTimes)`.
