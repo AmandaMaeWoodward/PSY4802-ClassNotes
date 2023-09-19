@@ -1,0 +1,70 @@
+---
+title: "PSY3801- Technical Assignment #2"
+author: "Amanda Mae Woodward"
+date: "2023-09-19"
+output: html_document
+---
+In this technical assignment, you will have the opportunity to apply the statistical knowledge that you’ve learned so far. The assignment will require you to use R Studio and import data. We recognize that doing both of these things may be new to you, so please make sure to ask your Lab TA, lecture TA, or Dr. Woodward any questions that may come up. Though the assignment is not due until Sunday, it is strongly recommended that you start the assignment before then.
+
+You are allowed to work in groups of up to 3 students. However, you need to write the names of the people that you've worked with. 
+
+1) Please write the names of the classmates you've worked with. If you worked by yourself, please write "I worked by myself"
+
+**Write your answer here** 
+
+2) For this assignment, we'll be using the world happiness report data 2022. It is provided by Ajaypal Singh on Kaggle.com, a website with different types of data. 
+
+2)Download the Worldhappinessreport2022.csv file from Canvas. Open this data in R Studio (Hint: Select “Import Data” from the Global Environment and choose “From Text Base.” It will be helpful for you to know where your downloaded data went on your computer). Make sure you copy the import code into your R Markdown file. 
+
+```{r}
+#delete this line and copy and paste the code to import your dataset
+```
+
+3) Print the country column from your dataset. 
+
+```{r}
+#delete this line and write your code here
+```
+
+4) What measure of central tendency is appropriate for the country column? Explain why
+
+**write your answer here**
+
+5) Calculate the measure of central tendency you mentioned in #4. 
+```{r}
+#delete this line and write your code here
+```
+
+6) What measures of central tendency are appropriate to calculate for the happiness column? Explain why.
+
+**write your answer here**
+
+7) Calculate the measures of central tendency that you chose in #6. 
+
+```{r}
+#delete this line and write your code here
+```
+
+8) What is the standard deviation of the happiness column?
+
+```{r}
+#delete this line and write your code here
+```
+
+9) Provide a reasonable interpretation of the standard deviation. 
+
+**write your answer here**
+
+10) What is the range of the happiness data? 
+```{r}
+#delete this line and write your code here
+```
+
+11) What is the mode of the generosity column? 
+```{r}
+#delete this line and write your code here
+```
+
+12) interpret your value from #11. 
+
+**write your answer here**

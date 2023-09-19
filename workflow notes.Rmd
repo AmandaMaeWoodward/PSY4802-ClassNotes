@@ -1,0 +1,7 @@
+---
+title: "Workflow Notes"
+author: "Amanda Mae Woodward"
+date: "2023-09-14"
+output: html_document
+---
+this is where we are talking about workflows
