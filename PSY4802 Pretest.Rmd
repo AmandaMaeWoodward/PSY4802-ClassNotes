@@ -113,7 +113,7 @@ a) Create a scatter plot of hp versus mpg
 
 ```
 
-b) Add a regression line to your scatter plot
+b) Add a regression line to your scatter plot 
 ```{r 5b}
 
 ```
