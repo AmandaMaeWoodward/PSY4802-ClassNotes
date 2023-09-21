@@ -207,20 +207,24 @@ The first one we'll talk about is `:`. Typically, it would be used by writing sm
 `rep()` allows you to repeat something a set number of times. Looking at the help file, we can see the arguments contained in the function. To use it, we write `rep(thingToBeRepeated, #ofTimes)`.
 
 ```{r}
-
+rep(13, 13)
+rep("coffee", 200)
 ```
 
 **Note:** For functions, you can either write arguments in the order listed in the help file (not labelled), or make sure you include the argument label.
 
 ```{r}
-
+rep(x= "Taylor Swift", times= 5)
+rep(times= 5, x= "Taylor Swift")
 ```
 
 `seq()` gives you a sequence of numbers. typically, we use it by writing
 `seq(lowest#, highest#, by=#)`.
 
 ```{r}
-
+seq(1, 300, by= 16)
+#seq(300,1, by= 16)
+seq(0, 300, by=16)
 ```
 
 #### Learning Outcome 2 Practice:
