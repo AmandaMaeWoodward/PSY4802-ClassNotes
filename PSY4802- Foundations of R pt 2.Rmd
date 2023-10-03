@@ -219,13 +219,34 @@ numDat$addTwo<- addTwo(numDat$numbers)
 numDat
 ```
 
+## Practice:
 function to multiply by 7
 ```{r}
-
+mSeven<- function(number){
+  number * 7
+}
 ```
+test it out
+```{r}
+numDat$bySeven<- mSeven(number = numDat$numbers)
+numDat
+```
+
 **my favorite is**
 `paste()`
 ```{r}
+myColor<- function(color){
+  c("my favorite color is", color)
+}
+
+myColorTwo<- function(color){
+  paste("my favorite color is", color)
+}
+```
+test
+```{r}
+myColor("orange")
+myColorTwo("orange")
 ```
 
 ### Multiple argument functions
@@ -233,29 +254,41 @@ function to multiply by 7
 We can make functions with more than one argument. For instance we could multiply all of the numbers in our original vector by a second vector 10-1
 
 ```{r}
+numDat$backwards<- 10:1
+#seq(10,1, by =-1) or c(10,9,8,7,6,5,4,3,2,1)
 
+multiplyBy<- function(num1, num2){
+  num1*num2
+}
+
+multiplyBy(numDat$numbers, numDat$backwards)
 ```
 
 ### Learning Outcome 3 Practice
 
 1. Make a function that divides numbers by 100. 
 ```{r}
-
+div100<- function(number){
+  number/100
+}
 ```
 
 2. Test your function on the mtcars mpg column.
 ```{r}
-
+div100(mtcars$mpg)
 ```
 
 3. Make a function that finds the mean of a column and divides it by the standard deviation of another column.
 ```{r}
-
+meanDivSd<- function(col1, col2){
+  mean(col1)/sd(col2)
+}
 ```
 
 4. Test it on the mpg column and hp column. 
 ```{r}
-
+mtcars$hp<- as.numeric(as.character(mtcars$hp))
+meanDivSd(mtcars$mpg, mtcars$hp)
 ```
 
 ## Learning Outcome 4: Create your own for loop
@@ -266,10 +299,15 @@ Let's say we wanted to create a column in the chickweight dataset that indicated
 
 We'd have to make a new column
 ```{r}
+data("ChickWeight")
 
+ChickWeight$day<- NA
 ```
 and then fill in that new column by indexing the days column, which has 12 different days. 
 ```{r}
+ChickWeight$day[ChickWeight$Time < mean(ChickWeight$Time)]<- "early"
+
+ChickWeight$day[ChickWeight$Time >= mean(ChickWeight$Time)]<- "late"
 
 ```
 
@@ -293,6 +331,11 @@ ifelse(logical statment, "TRUE", "FALSE")
 
 
 ```{r}
+ChickWeight$dayTwo<- NA
+
+for(i in 1:nrow(ChickWeight)){
+ChickWeight$dayTwo[i]<- ChickWeight$Time[i]>mean(ChickWeight$Time)   
+}
 
 ```
 
