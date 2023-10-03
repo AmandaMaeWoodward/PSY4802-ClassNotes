@@ -181,7 +181,6 @@ summary(mtcars$hp2)
 There are lots of functions in R that are helpful, but some times you need to make your own. I do this a lot when cleaning data.
 Making a function takes the following structure: 
 
-
 nameOfYourFunction<- function(types of arguments){
 stuff you want function to do
 }
@@ -192,30 +191,35 @@ You can make a simple function that adds two to a set of numbers
 Before we make the function, we'll make a vector of numbers (1-10) as our input
 
 ```{r}
-
+numbers<- 1:10
 ```
 
 then, we'll name our function addTwo and give it one argument or input
 
 ```{r}
-
+addTwo <- function(number){
+  number + 2
+}
 ```
-if we run this correctly, it should show up in the environment (top left). 
+if we run this correctly, it should show up in the environment (top right). 
 
 Then, we can use our function to add two to our vector:
 
 ```{r}
-
+addTwo(0)
+addTwo(numbers)
 ```
 
 One thing to note- anything you make in a function **stays in the function.** If you want to save it to a dataframe, you treat your new function just like any other R function (i.e. you need to assign the output to a column or variable)
 
 ```{r}
 "dataframe$column <- function"
-
+numDat<-data.frame(numbers)
+numDat$addTwo<- addTwo(numDat$numbers)
+numDat
 ```
 
-function to mulitply by 7
+function to multiply by 7
 ```{r}
 
 ```
