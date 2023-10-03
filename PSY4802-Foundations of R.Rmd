@@ -549,28 +549,34 @@ rangeDat[2]- rangeDat[1]
 
 1. Summarize the ChickWeight dataset
 ```{r}
-
+summary(ChickWeight)
 ```
 
 2.  Find the mean of the weight column
 
 ```{r}
-
+mean(ChickWeight$weight)
 ```
 
 3.  Summarize the data for just the 1st chick
 
 ```{r}
+#head(ChickWeight, n=1)
+chick1<- subset(ChickWeight, Chick==1)
+summary(chick1)
 
+summary(subset(ChickWeight, Chick==1))
 ```
 
 4.  What is the variance of the 1st chick's weight?
 
 ```{r}
-
+var(chick1$weight)
 ```
 
 5.  What is the range in weight for each chick posted in the dataset?
 ```{r}
-
+range(ChickWeight$weight[ChickWeight$Chick ==1])
+range(ChickWeight$weight[ChickWeight$Chick ==2])
+#..... this is why we have for loops! 
 ```

@@ -27,27 +27,40 @@ You could print the dataframe repeatedly, but it's tedious. Here are some functi
 
 `dataframe$columnName`
 
-We'll use diamonds to learn about: colnames, names, and 0 row
+We'll use diamonds to learn about: `colnames()`, `names()`, and 0 row
 ```{r}
+library(ggplot2)
+data(diamonds)
 
+colnames(diamonds)
+names(diamonds)
+diamonds[0,]
 ```
 
 ### editing column names 
 `colnames()` returns all of the column names in a vector. So we can get column names using indexing as well. 
 ```{r}
+colnames(diamonds)<- c("carat", "cut", "color", "clarity", "depth", "table", "price", "length", "width", "height")
 
+colnames(diamonds)[8]
 ```
 
 It **also** means that you can change names if necessary (when we talk about dataframe manipulation next week, this can become important.)
 `colnames(data)[position]`
 ```{r}
-
+colnames(diamonds)[8]<- "length"
 ```
 
 More often than not, we're using datasets that we either created or received from collaborators. That means that you may be dealing with problems **past you** graciously left you, different naming conventions, or even needing to manipulate variables that combine information. We'll talk about how to fix some of the more involved ones next week. For now, ones that may be helpful are making sure your column names are all lower case or all upper case. You can do this with the toupper and tolower functions:
 
 ```{r}
+data("ChickWeight")
 
+colnames(ChickWeight)<- toupper(colnames(ChickWeight))
+colnames(ChickWeight)
+
+colnames(ChickWeight)<- tolower(colnames(ChickWeight))
+colnames(ChickWeight)
 ```
 
 ### Adding Column Names
@@ -56,31 +69,45 @@ dataframe$newColumn<- whatever you're assigning
 
 For instance, if you want to add a blank column:
 ```{r}
-
+diamonds$size<- NA
+diamonds$size<- 999
 ```
 Then you can fill it with whatever information you want. 
 ```{r}
-
+diamonds$labGrown<- "lab grown or natural" 
 ```
 or you can fill the new column in based on other data in the dataframe
 ```{r}
-
+diamonds$size<- diamonds$carat
+```
+can do math to fill in the columns
+```{r}
+diamonds$volume<- diamonds$length*diamonds$width*diamonds$height
 ```
 
 #### Learning Outcome 1 Practice: 
 
 1. Change all of the column names in mtcars to capital letters
 ```{r}
-
+data(mtcars)
+colnames(mtcars)<- toupper(colnames(mtcars))
 ```
-2. Change the name of the 9th column to reflect the values in the am column
+2. Change the name of the 9th column to reflect the values in the am column description
 ```{r}
-
+colnames(mtcars)[9]<- "transmission"
+colnames(mtcars)
 ```
 
 3. Change the 4th column name to all lowercase letters 
 ```{r}
+colnames(mtcars)[4]<- tolower(colnames(mtcars)[4])
+colnames(mtcars)
+```
 
+```{r}
+#fix colnames for later
+colnames(mtcars)<- tolower(colnames(mtcars))
+colnames(mtcars)
 ```
 
 ## Learning Outcome 2: Explain different classes of variables and how to change the class
@@ -89,41 +116,63 @@ We talked about this a little bit last week, but there are different classes (ty
 
 ### Different classes in R:
 
-- character: strings, words; typically labels
-- factors: can be words or numbers; categories (gender, race, age groups)
-- ordered factor: ordinal level data
-- integers: whole numbers
-- numeric: continuous numbers 
-- dates: dates
-- empty values: NA
-
+- *character:* strings, words; typically labels 
+- *factors:* can be words or numbers; categories (gender, race, age groups)
+- *ordered factor:* ordinal level data
+- *integers:* whole numbers
+- *numeric:* continuous numbers 
+- *dates:* dates
+- *empty values:* NA
+-*logical* results of a logical statement
 
 You can check the class of your data using `class()`
 ```{r}
+class(diamonds$volume)
+class(diamonds$labGrown)
+class(diamonds$clarity)
 
+a<- 3 < 4
+class(a)
 ```
 
 If you want to change the class of your variable, you can assign `as.Preferredclass(dataframe$column)` to the column name
 
 ```{r}
 "is.classname"
+is.factor(diamonds$color)
+is.character(diamonds$color)
 
+"as.classname"
+diamonds$color2<- as.character(diamonds$color) #make a new column 
+class(diamonds$color2) 
+diamonds$color2<- as.factor(diamonds$color2)
+is.factor(diamonds$color2)
 ```
 **DOUBLE CHECK YOUR DATA**
 
 ### Learning Outcome 2 Practice:
 1. Check the class of the horsepower column (hp) 
 ```{r}
-
+class(mtcars$hp)
 ```
 
 2. Change the class of horsepower to a factor
 ```{r}
-
+mtcars$hp<- as.factor(mtcars$hp)
+mtcars$hp<- factor(mtcars$hp)
 ```
 
 3. Look at summaries of horsepower as a factor and as a number. What do you notice? 
 ```{r}
+summary(mtcars$hp) #horse power is a factor
+#as.numeric
+#blah.new1<-as.numeric(as.character(blah.new))
+mtcars$hp2<- as.numeric(as.character(mtcars$hp)) #correct
+
+mtcars$hp3<- as.numeric(mtcars$hp) #incorrect
+library(tidyverse)
+mtcars %>% select(hp, hp2,hp3) #checking
+summary(mtcars$hp2)
 
 ```
 
