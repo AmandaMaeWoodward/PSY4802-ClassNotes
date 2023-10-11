@@ -156,25 +156,30 @@ ChickWeight%>%pivot_wider( id_cols = c("Chick", "Diet"),names_from= "Time", valu
 
 1) open sleep data set
 ```{r}
-
+data(sleep)
 ```
 
 2) identify the type of data
-```{r}
 
-```
-#wide data
+#long data because there are two rows per person 
 
 3) change it to the other type
 
 ```{r}
-
+library(tidyverse)
+sleepWide<- pivot_wider(sleep, id_cols= c("ID"), names_from="group", values_from= "extra")
 ```
 4) Go back to the chick weight dataset and take all data from chick 3 and put it in wide format 
 ```{r}
-
+chick3<- subset(ChickWeight, ChickWeight$Chick==3)
+chick3Wide<- pivot_wider(chick3, id_cols= c("Chick", "Diet"), names_from= "Time", values_from= "weight")
 ```
 
+```{r}
+chick3Wide<- ChickWeight %>% 
+  filter(Chick == 3) %>%
+  pivot_wider(id_cols= c("Chick", "Diet"), names_from= "Time", values_from = "weight")
+```
 
 ### Learning Outcome 3: Join data sets in R
 Some times, we have datasets that we need to join or merge (e.g. participant demographics in one file and responses in a second). We can combine these datasets using "join." If you've ever used/heard of SQL, join works the same way in R
@@ -182,11 +187,16 @@ Some times, we have datasets that we need to join or merge (e.g. participant dem
 We'll practice on the following code: 
 Make a data frame with subject number and simulated anxiety scores
 ```{r}
+set.seed(137)
 
+#make subject vector 
+subjNo<- aggressionDat$subjNo
+anxietyScore<- sample(0:112, size = nrow(aggressionDat), replace=TRUE)
+anxietyDat<- cbind.data.frame(subjNo, anxietyScore)
 ```
 use `left_join()`
 ```{r}
-
+aggressionFullDat<- left_join(aggressionDat, anxietyDat, by= "subjNo")
 ```
 
 `right_join()` does the same thing, but places the new column to the right. 
@@ -194,7 +204,9 @@ use `left_join()`
 #### Learning Outcome 3 Practice
 1. Create a dataframe (n=48) that includes subject numbers and executive function scores (ranging from 0-16).
 ```{r}
-
+#subjNo<- aggressionDat$subjNo
+executiveFunction<- sample(0:16, size=48, replace=TRUE)
+EFdat<- cbind.data.frame(subjNo, executiveFunction)
 ```
 
 2. Join your dataset in #1 to the original Aggression dataset. 
