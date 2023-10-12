@@ -27,7 +27,7 @@ aggressionDat <- read.csv("~/Desktop/PSY4802-ClassNotes/PSY4802-AggressionSample
 
 ```{r}
 getwd()
-setwd("~/Users/Amanda 1 2/Desktop")
+#setwd("~/Users/Amanda 1 2/Desktop")
 #read.csv("insert file path")
 ```
 
@@ -211,7 +211,8 @@ EFdat<- cbind.data.frame(subjNo, executiveFunction)
 
 2. Join your dataset in #1 to the original Aggression dataset. 
 ```{r}
-
+EfDatJoin<- cbind.data.frame(EFdat, aggressionDat) #happens to be right, but not a consistent way to get an answer 
+EfDatJoinTwo<- left_join(aggressionDat, EFdat, by="subjNo")
 ```
 
 ### Learning Outcomes 4 & 5: Use functions to clean data (and pipes)
@@ -224,7 +225,7 @@ As we talked about before, there are different classes(or types) of data in R. F
 Let's take the example from our final dataset (datFinal). We can change parentReportGender to have levels of "boy" and "girl."
 we'll check what class it is first
 ```{r}
-
+class(aggressionDat$parentReportGender)
 ```
 it's currently a character, so we can change it to a factor using as.factor (which we talked about last week). Then, we can use the function `levels()` to change the data. 
 
@@ -233,26 +234,34 @@ Note: because I saved these as different columns, I can directly compare the dat
 Also, keep in mind that changing levels of a factor requires you to know **know what levels are currently in your data.** You can check this by either printing the column as I've done above, or using the levels command:
 `factor(data, levels = x,y,z)`
 ```{r}
-#finalDat$parentReportGender3<-factor(finalDat$parentReportGender, levels= c("girl", "boy"))
-#finalDat$parentReportGender3
+aggressionDat$parentReportGender2<- as.factor(aggressionDat$parentReportGender)
+aggressionDat$parentReportGender2
+levels(aggressionDat$parentReportGender2)<- c("girl", "boy")
+aggressionDat$parentReportGender2
 
+aggressionDat$parentReportGender3<-factor(aggressionDat$parentReportGender, levels= c("F","M") ,labels= c("girl", "boy"))
+aggressionDat$parentReportGender3
 ```
 I'd recommend this version, particularly if you have a large data set. 
 
-####Practice: 
+#### Practice: 
 1. Create a column in the final dataset that contains condition as a factor. 
 ```{r}
-
+aggressionFullDat$condition2<- as.factor(aggressionFullDat$condition)
 ```
 
 2. Change the levels to "e" for exclusion and "i" for inclusion. 
 ```{r}
-
+levels(aggressionFullDat$condition2)<- c("e", "i")
+levels(aggressionFullDat$condition2)
 ```
 
 3. Check that you have done this successfully. 
 ```{r}
+View(aggressionFullDat)
 
+aggressionFullDat %>% 
+  select(condition, condition2)
 ```
 
 **reordering factors**
