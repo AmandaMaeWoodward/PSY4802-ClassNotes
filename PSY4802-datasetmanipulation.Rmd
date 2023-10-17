@@ -268,37 +268,39 @@ aggressionFullDat %>%
 You may have noticed that writes levels of a factor in alphabetical order. Sometimes, this is really helpful. Other times, it can complicate statistical models and graphs because there are more meaningful ways to reorder your data. You can reorder the data using relevel. 
 It has the general structure `relevel(column, reference level)`
 ```{r}
-#dat$parentReportGender<- relevel(dat$parentReportGender, ref = "Male")
-
+aggressionDat$parentReportGender2<- relevel(aggressionDat$parentReportGender2, ref= "M")
 ```
 If you have more levels, you can specify the order in your factor function 
 
 `factor(data, levels= order of levels)`
 
 #### Practice
-1. Reorder the parentReportGender variable in your final dataset so that male is the reference category. 
+1. Reorder the condition variable in your final dataset so that inclusion is the reference category. 
 ```{r}
-
+aggressionDat$condition2<- as.factor(aggressionDat$condition)
+aggressionDat$condition2<- relevel(aggressionDat$condition2, ref= "Inclusion")
 ```
 
 **Reverse Coding**
 For those of you who have survey data, you may be interested in using a function to reverse code certain items. You can use `recode()` to do so. 
 `recode(column to be coded, what recode looks like)`
 
-I'm going to make a new column to demonstrate this.Let's say it's for a single Anxiety item that ranges from 1 to 20
+I'm going to make a new column to demonstrate this.
 ```{r}
-"let's remind ourselves of what the data look like"
-
-"we could practice on this, but we will make a new column to use"
-
+participant<- 1:11
+halloweenQ1<- c(7,10, 8, 8, 3, 5, 6,8,9,7,10) #how much do you love halloweeen?
+halloweenQ2<- c(5,2,4,2,3,2,4,5,3,5,7) #how much do you HATE costumes? 
+halloweenDat<- cbind.data.frame(participant, halloweenQ1, halloweenQ2)
 ```
 To reverse code it, we would write
 `recode(data, 'how to recode')`
 There is also a recode in the car package
 ```{r}
 library(car)
-#datFinal$anxietyReverse<- car::recode(datFinal$AnxietyOne, '1=6; 2=5; 3=4; 4=3; 5=2; 6=1')
 
+halloweenDat$halloweenQ2Reverse<- car::recode(halloweenDat$halloweenQ2, '10=1; 9=2;8=3;7=4;6=5;5=6;4=7;3=8;2=9;1=10')
+
+halloweenDat %>% select(halloweenQ2, halloweenQ2Reverse)
 ```
 Note: you'll notice that I wrote "car::" before the record function. This is necessary sometimes. Remember, the libraries are made by **different** people. People use the same words for different functions. So we need to tell R which of the functions we want to use. 
 
@@ -308,10 +310,9 @@ separate uses the following arguments:
 `separate(data, columns, into, sep)`
 let's look at the subject column in our dataset
 ```{r}
-#library(tidyverse)
+halloweenDat$condition <- c("high_1", "low_2", "high_3", "low_4", "high_5", "low_6", "high_7","low_8", "high_9", "low_10", "high_11")
 
-#datFinal %>% separate(subjNo, into= c("condition", "subject"),1)
-
+halloweenDat %>% separate(condition, into= c("condition", "participantNo"), sep = "_")
 ```
 
 **Mutate** 
@@ -319,14 +320,14 @@ When you are cleaning data, there are occasionally instances where you need to u
 
 To practice using Mutate, we're going to use a messier dataset
 ```{r}
-
+data(starwars)
 ```
 
 If you open the dataset, you can see that we have both height and mass variables. You can see that height is in cm, so we can convert height to inches
 ```{r}
-#starwars %>% 
-  #mutate(heightIn= height *.393701)%>% 
-  #select(height,heightIn)
+
+starwars2<-starwars %>% 
+  mutate(height*2.54) 
 
 ```
 
