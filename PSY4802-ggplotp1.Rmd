@@ -21,29 +21,44 @@ We've already talked about how to transform data into wide and long format. For 
 **summarySE**
 To do this, we're going to use a function called `summarySE()`. It's in the Rmisc package
 ```{r}
+library(Rmisc)
 
 ```
 
 We'll try this with the diamonds dataset (located in ggplot). Specifically, we'll create a summary of price by color. 
 
 Note: If you have a slow computer, make a subset of the diamonds dataset (typically, I use above 1 carat, but choose your favorite dimension)
+```{r}
+library(tidyverse)
+library(ggplot2)
+data(diamonds)
+
+overCarat<- diamonds %>% 
+  filter(carat>1)
+```
 
 The structure for summarySE is: 
 
 `summarySE(data, measurevar(the variable you want to summarize), grouping variables, confidence interval)`
 ```{r}
-
+summaryBigDiamonds<-summarySE(overCarat, measurevar = "depth" , groupvars = "cut" ,conf.interval = .95)
 ```
 
 ### Learning Outcome 1: Practice 
 1. Open the mtcars dataset. Create a dataset containing a summary of the mpg by cylinder (cyl).
 ```{r}
-
+data(mtcars)
+summaryMpgCyl<- summarySE(mtcars, measurevar= "mpg", groupvars="cyl")
+summaryMpgCyl
 ```
 
 ### General Graphing Notes:
 we'll be talking about lots of ways you can make graphs. Things that we won't talk about today (but may be helpful):
 - APA style graphs https://rdrr.io/cran/jtools/man/theme_apa.html
+```{r}
+library(jtools)
+#install.packages("jtools")
+```
 
 ## Learning Outcomes 2 & 3:Create bar graphs,histograms, scatterplots, line graphs, and box plots in R. Change aesthetic properties of graphs, including themes and colors
 
@@ -56,7 +71,7 @@ ggplot makes graphs in layers. I'll try to demonstrate:
 
 Here is an "empty graph" 
 ```{r}
-
+ggplot()
 ```
 You'll notice that the Plot window opened on my version of R and contains a gray background. This is a default "empty graph."
 
@@ -66,10 +81,10 @@ The next step is to include a dataset and to include an argument called aestheti
 
 In our case, we'll use the diamonds dataset again and see what happens when we include an x variable. 
 ```{r}
-
+ggplot(overCarat, aes(x))
 ```
 
-You'll notice that now we have an x axis, labeled carat with values on it. 
+You'll notice that now we have an x axis, labeled x with values on it. 
 
 This `ggplot()` section is the base of our graph. We add additional parts using a + sign. 
 
@@ -77,13 +92,20 @@ This `ggplot()` section is the base of our graph. We add additional parts using 
 We'll start with histograms because we only need one variable to make one. To do this, we can add `+geom_histogram()` to our code above. 
 
 ```{r}
+ggplot(overCarat, aes(x))+ geom_histogram()
 
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 1)
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 10)
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100)
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 1000)
 ```
 
 **Changing the background**
 I really don't like the gray background (personal preference). So the first customization we'll do is remove the background using a themes argument.
 ```{r}
-
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100)+ theme_classic()
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100)+theme_apa()
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100)+ theme_dark()
 ```
 It can be used with any graph. 
 
@@ -92,6 +114,9 @@ There are two additional arguments we can use to change the colors; color and fi
 
 Note: color and fill go in the histogram layer
 ```{r}
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100, color= "pink", fill= "green")+theme_classic()
+
+ggplot(overCarat, aes(x))+ geom_histogram(bins= 100, color= "red", fill= "#88bbb3")+theme_classic()
 
 ```
 **Note**You can also put the color and fill arguments in the `aes()` section. As your graphs get more complicated, you will notice that placement matters and will result in slightly different graphs. We're not going to go that far today though.
@@ -101,16 +126,17 @@ Note: color and fill go in the histogram layer
 #### Histogram Practice: 
 1. Create a histogram of the price variable. 
 ```{r}
-
+ggplot(overCarat, aes(price))+ geom_histogram()
 ```
 2. Include a theme to change the appearance of your graph.
 ```{r}
+ggplot(overCarat, aes(price))+ geom_histogram()+theme_minimal()
 
 ```
 
 3. Create a histogram with orange bars and purple lines. 
 ```{r}
-
+ggplot(overCarat, aes(price))+ geom_histogram(color= "purple", fill="orange")+theme_minimal()
 ```
 
 4. **Bonus** Create a histogram with the worst color combination you can think of. 
