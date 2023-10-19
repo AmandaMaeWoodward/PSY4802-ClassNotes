@@ -141,7 +141,7 @@ ggplot(overCarat, aes(price))+ geom_histogram(color= "purple", fill="orange")+th
 
 4. **Bonus** Create a histogram with the worst color combination you can think of. 
 ```{r}
-
+#see your participation assignment 10/17
 ```
 
 **Bar graph** 
@@ -150,31 +150,39 @@ Next, we'll talk about how to make a bar graph. We can do this the same way we m
 We'll practice on the "clarity" column. (I'll use another theme so you can see the differences)
 
 ```{r}
-
+ggplot(overCarat, aes(clarity))+ geom_bar()+theme_gray()
 ```
 
 **Changing the x and y label axes** 
 You'll notice that our y axis is "count" and our x axis is "clarity". These are not particularly informative. We can change these using xlab and ylab. 
 ```{r}
+ggplot(overCarat, aes(clarity)) + geom_bar()+ ylab(label = "Frequency")+ xlab(label= "Diamond Clarity") + ggtitle("Clarity of Diamonds")
 
+ggplot(overCarat, aes(clarity))+geom_bar()+ labs(x= "clarity of diamonds", y="frequency of clarity", title = "Clarity of Diamonds")
 ```
 Note - \n- starts a new line 
+```{r}
+
+ggplot(overCarat, aes(clarity)) + geom_bar()+ ylab(label = "Frequency")+ xlab(label= "Diamond \n Clarity") + ggtitle("Clarity of Diamonds \n")
+
+```
 
 **Using means in bar graphs**
 Sometimes, we don't just want the count of a category to make a bar graph. For instance, we may want to use a mean. We can do this by using the summary data frame we made before. 
 
 ```{r}
-
+ggplot(summaryBigDiamonds, aes(cut, depth))+ geom_bar(stat="identity")+ theme_nice()+ ylab("average \n depth")
 ```
 
 **standard errors**
 Using this dataset also allows us to include standard error bars or confidence intervals in our plots. We do this by adding a layer called `geom_errorbar(aes(ymin, ymax))`. 
 ```{r}
+ggplot(summaryBigDiamonds, aes(cut, depth))+ geom_bar(stat="identity")+ theme_nice()+ ylab("average \n depth") + geom_errorbar(aes(ymin = depth-se, ymax= depth+se))
 
 ```
 
 ```{r}
-
+ggplot(summaryBigDiamonds, aes(cut, depth))+ geom_bar(stat="identity", alpha=.7)+ theme_nice()+ ylab("average \n depth") + geom_errorbar(aes(ymin = depth-se, ymax= depth+se, width= .3))+ scale_y_continuous(breaks= seq(0, 65, by= 10))
 ```
 
 Things I included:
@@ -185,7 +193,9 @@ Things I included:
 
 **adding lines** (hline/vline)
 ```{r}
+ggplot(summaryBigDiamonds, aes(cut, depth))+ geom_bar(stat="identity")+ theme_classic()+ geom_hline(yintercept = mean(diamonds$depth), color= "red", linetype= "dashed", size= 1)+ geom_vline(xintercept = "Fair", color= "purple", alpha= .5, linetype= "solid", size= 2)
 
+ggplot(summaryBigDiamonds, aes(cut, depth))+ geom_bar(stat="identity")+ theme_classic()+ geom_hline(yintercept = mean(diamonds$depth), color= "red", linetype= "dashed", size= 1)+ geom_vline(xintercept = 4, color= "purple", alpha= .5, linetype= "solid", size= 2)
 ```
 Things I changed: 
 - alpha: how transparent a layer is
@@ -198,22 +208,29 @@ Things I changed:
 ### Practice: 
 1. Create a bar graph for the cut column. 
 ```{r}
-
+ggplot(overCarat, aes(cut))+ geom_bar()
 ```
 
 2. Change the x and y labels to something that is more informative. 
 ```{r}
-
+ggplot(overCarat, aes(cut))+ geom_bar() +labs(x="quality of diamond cut", y= "frequency", title= "bar graph of diamond cut \n")
 ```
 
 ### Adding a third variable to a bar graph: 
 ```{r}
+ggplot(overCarat, aes(cut, color= clarity))+ geom_bar(position= position_dodge()) +labs(x="quality of diamond cut", y= "frequency", title= "bar graph of diamond cut \n") #outlines bars in differnt colors
 
+ggplot(overCarat, aes(cut, fill= clarity))+ geom_bar(position= position_dodge()) +labs(x="quality of diamond cut", y= "frequency", title= "bar graph of diamond cut \n")
 ```
 
 **Scatter plot**
 We can make scatter plots using the argument `geom_point()`. We'll make a graph of carat by price. 
 ```{r}
+ggplot(overCarat, aes(carat, price))+ geom_point()
+
+ggplot(overCarat, aes(carat, price))+ geom_point(size= .3, shape= 8)
+
+ggplot(overCarat, aes(carat, price, color= cut))+ geom_point(size= .3, shape= 8)
 
 ```
 
