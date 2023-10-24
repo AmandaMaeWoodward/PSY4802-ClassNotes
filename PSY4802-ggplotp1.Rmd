@@ -237,12 +237,14 @@ ggplot(overCarat, aes(carat, price, color= cut))+ geom_point(size= .3, shape= 8)
 ### Practice
 - make a scatter plot of the x and y variables in the diamonds dataset. 
 ```{r}
-
+ggplot(overCarat, aes(x,y))+geom_point()
 ```
 
 - modify the graph to include at least 2of the style elements we talked about
 ```{r}
+ggplot(overCarat, aes(x,y))+geom_point(size=2, shape=8)
 
+ggplot(overCarat, aes(x,y))+geom_point(size=3, shape=7)
 ```
 
 **Note:**In this case, `geom_point()` is the best option to make our scatter plot. If you work with small datasets, the points may be overlapping and make it look like you have less data. In these cases, you can use `geom_jitter()`, which will offset the dots slightly and allow you to see each participant.  
@@ -250,24 +252,18 @@ ggplot(overCarat, aes(carat, price, color= cut))+ geom_point(size= .3, shape= 8)
 **Inserting a regression line**
 We can include a regression line into our graph using `geom_smooth()`.
 ```{r}
-
+ggplot(overCarat, aes(x,y))+geom_point(size=2, shape=8)+ geom_smooth(method="lm", se=FALSE)
 ```
-
-
 We can customize whether the regression line has a confidence interval surrounding it. You may be asking yourself **what confidence interval**. Carat and price are very highly correlated. let's use an mtcars example to see how we can change it. 
 w/ 95% confidence interval shaded
 ```{r}
+ggplot(overCarat, aes(x,y))+geom_point(size=2, shape=8)+ geom_smooth(method="lm", se=FALSE, color="orange")
 
 ```
 **Changing scatterplots**
 you can change the outline of a dot using "color" 
 ```{r}
-
-```
-
-you can also change the shape and the size of the points by adding shape and size arguments to geom_point. 
-```{r}
-
+ggplot(overCarat, aes(x,y))+geom_point(size=2, shape=8, color="purple")+ geom_smooth(method="lm", se=FALSE, color="orange")
 ```
 
 ####Practice: 
@@ -292,18 +288,25 @@ you can also change the shape and the size of the points by adding shape and siz
 Line graphs follow a similar to scatterplots, but use the geom_line function. Color customizations follow the same rules as scatterplots. 
 include group in aes
 ```{r}
-
+data(ChickWeight)
+ggplot(ChickWeight, aes(Time, weight, group= Chick, color=Chick ))+ geom_line()
+ggplot(ChickWeight, aes(Time, weight, group= Diet, color=Diet ))+ geom_line()
 ```
 I won't talk as much about these graphs, but happy to answer questions. 
 
 **Box plots**
 I hope that the pattern is starting to make sense, but the only difference with a box plot is that you'll use `geom_boxplot()`. 
 ```{r}
+ggplot(ChickWeight, aes(weight))+ geom_boxplot()
 
 ```
 
 ```{r twoVariableBoxplot}
+ggplot(ChickWeight, aes(Diet, weight))+ geom_boxplot()
+```
 
+```{r}
+ggplot(ChickWeight, aes(Diet,weight))+ geom_violin()
 ```
 
 ### Practice: 
