@@ -298,7 +298,6 @@ I won't talk as much about these graphs, but happy to answer questions.
 I hope that the pattern is starting to make sense, but the only difference with a box plot is that you'll use `geom_boxplot()`. 
 ```{r}
 ggplot(ChickWeight, aes(weight))+ geom_boxplot()
-
 ```
 
 ```{r twoVariableBoxplot}
@@ -312,17 +311,20 @@ ggplot(ChickWeight, aes(Diet,weight))+ geom_violin()
 ### Practice: 
 1. Create a boxplot for carat.
 ```{r}
-
+ggplot(overCarat, aes(y= carat)) + geom_boxplot()
 ```
 
 2. Create boxplots of carat for each level of cut.
 ```{r}
+ggplot(diamonds, aes(cut, carat))+ geom_boxplot()+ labs(title= "carat by cut", x= "cut", y = "carat")
 
+ggplot(diamonds, aes(y= cut, x= carat))+ geom_boxplot()
 ```
 
 3. **Bonus** play around with fill and color. What changes about your boxplots? 
 ```{r}
-
+ggplot(diamonds, aes(cut, carat))+ geom_boxplot(color= "black", fill="pink")+ labs(title= "carat by cut", x= "cut", y = "carat")
+ggplot(diamonds, aes(cut, carat, fill= color))+ geom_boxplot()
 ```
 
 ## Learning Outcome 4:Incorporate third variables into graphs
@@ -331,13 +333,17 @@ There are many ways that we can include third variables.
 For bar graphs: 
 use fill = 
 ```{r}
+ggplot(diamonds, aes(price, fill=color))+geom_histogram()+theme_classic()
 
+ggplot(diamonds, aes(cut, fill=color))+ geom_bar()+theme_classic()
+
+ggplot(diamonds, aes(price, fill= cut))+ geom_boxplot()
 ```
 
 For scatter plots: 
 color = 
 ```{r}
-
+ggplot(diamonds, aes(price, carat, color= cut))+geom_point()
 ```
 
 Rather than having all bars/dots/lines the same color, you can have them change by using various packages and by looking up a few color codes online. 
@@ -346,22 +352,32 @@ If you don't like the colors, we can specify specific ones using `scale_fill_dis
 (need to specify option for color scales)
 We'll walk through these together because I think it's helpful to see what color combinations exist and how you can use them in a bar graph or a scatter plot.
 ```{r}
+ggplot(diamonds, aes(color, fill=cut))+ geom_bar(position= position_dodge())+ scale_fill_manual(values = c("#365365","#6f6534", "#71250e", "#cc5221", "#eb781b"))+ theme_classic()
 
+fallColors<- c("#365365","#6f6534", "#71250e", "#cc5221", "#eb781b")
+ggplot(diamonds, aes(color, fill=cut))+ geom_bar(position= position_dodge())+ scale_fill_manual(values = fallColors)+ theme_classic()
 ```
 `scale_color_manual(values = #)`; 
 ```{r}
-
+ggplot(diamonds, aes(carat, price, color= cut))+ geom_point()+ scale_color_manual(values=fallColors)
 ```
+
 R ColorBrewer
 `scale_color_brewer(palette=)`
 ```{r}
+library(RColorBrewer)
+ggplot(diamonds, aes(color, fill=cut))+ geom_bar(color="black")+ scale_fill_brewer(palette = "GnBu")
 
+ggplot(diamonds, aes(carat, price, color= cut))+ geom_point()+ scale_color_brewer(palette = "Purples")
 ```
 
 Viridis
 `scale_color_viridis()`
 ```{r}
+library(viridis)
+ggplot(diamonds, aes(color, fill=cut))+ geom_bar(color="black")+ scale_fill_viridis(discrete = TRUE, option = "F")
 
+ggplot(diamonds, aes(carat, price, color=cut))+ geom_point()+scale_color_viridis(discrete=TRUE, option= "E")
 ```
 
 
