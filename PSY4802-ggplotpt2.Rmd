@@ -103,11 +103,11 @@ ggsave("LearningOutcome2-PracticeQuestion.tiff", width= 10, height= 10, units="i
 ```
 I don't usually specify a path in ggsave, but make sure my r code is in the directory I'd like it to be saved in. you can check your working directory by using this code
 ```{r}
-
+getwd()
 ```
 you can change your working directory using this code: 
 ```{r}
-
+setwd("/Users/Amanda 1 2/Desktop/PSY4802-ClassNotes")
 ```
 
 ### Learning Outcome 4: Identify Code to create a shiny app 
@@ -117,7 +117,6 @@ Shiny apps are advanced. Even if we're focusing on "basics" the coding behind it
 The plan is to **show** you what you can build to as you program in R. There are tutorials that are ~18 hours to complete. We can't do that in one class. I've included links that I use when making shiny apps that you may want to try. 
 
 #### Identify Code to create a shiny app 
-
 shiny is a package in R that allows us to create interactive graphs. You can create dashboards and place interactive graphs online. 
 
 Today should be treated as an introduction. You can learn more here: https://shiny.rstudio.com/tutorial/ 
@@ -148,7 +147,7 @@ I am using ui to stand for the user interface. This is going to be what someone 
 
 Whatever we put in the fluidpage() function above is going to be present in our shiny app. 
 ```{r}
-ui <- fluidPage("I LOVE PSY4960!")
+ui <- fluidPage("I LOVE PSY4802!")
 server <- function(input, output) {}
 shinyApp(ui = ui, server = server)
 ```
@@ -174,7 +173,7 @@ When we put it in the ui/server code we used to make the app:
 ui <- fluidPage(
   sliderInput(inputId = "number", 
     label = "Pick a number", 
-    value = 13, min = 1, max = 100),
+    value = 13, min = 0, max = 100),
   plotOutput("hist")
 )
 
@@ -203,7 +202,7 @@ ggplot(, aes(rnorm(1000)))+ geom_histogram(fill="darksalmon")+theme_classic()
 ui <- fluidPage(
   sliderInput(inputId = "number", 
     label = "Pick a number", 
-    value = 13, min = 1, max = 100),
+    value = 13, min = 0, max = 100),
   plotOutput("hist")
 )
 
@@ -313,10 +312,9 @@ plotOutput("colorgraph")
 )
 server <- function(input, output) {
   output$colorgraph <- renderPlot({
-    ggplot(diamonds[diamonds$color==input$colorChoice,], aes(carat, price))+ geom_point(color= "lightseagreen")+theme_classic()
+    ggplot(diamonds[diamonds$color==input$colorChoice,], aes(carat, price))+ geom_point(color= "lightseagreen")+theme_classic()+ labs(title= "carat size of diamonds")
   })
 }
-
 
 shinyApp(ui = ui, server = server)
 ```
