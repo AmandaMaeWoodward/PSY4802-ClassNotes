@@ -19,25 +19,18 @@ It can also be helpful to understand how to modify your legend:
 Let's try this on a graph from the diamonds dataset: 
 Create a subset of the diamonds dataset:
 ```{r}
+library(ggplot2)
+library(tidyverse)
+library(viridis)
+data(diamonds)
+ggplot(diamonds, aes(carat, price, color= cut)) + geom_point()+ scale_color_viridis(option= "D", discrete=TRUE) + theme(legend.position = "none")
 
+ggplot(diamonds, aes(carat,price, color=price))+ geom_point()+ scale_color_viridis(option="C", discrete=FALSE)+ theme(legend.position="none")
 ```
 
-Create a graph including information about price and carat. Include cut in some way: 
-```{r}
-
-```
-Notice what the legend looks like. To remove it we can add: 
-`theme(legend.position="none")`
-```{r}
-
-```
 We can also change the location: 
 ```{r}
-
-```
-
-```{r}
-
+ggplot(diamonds, aes(carat,price, color=price))+ geom_point()+ scale_color_viridis(option="C", discrete=FALSE)+ theme(legend.position="bottom")
 ```
 
 To Change the legend title, you can use a couple of different codes, depending on the type of data: 
@@ -45,29 +38,33 @@ To Change the legend title, you can use a couple of different codes, depending o
 `scale_fill_discrete(name="Title)` should work for a bar graph filled in by a factor
 `scale_color_continuous()` and `scale_fill_continuous()` should work for a numeric fill
 ```{r}
+ggplot(diamonds, aes(carat,price, color=price))+ geom_point()+ theme(legend.position="top")+ scale_color_continuous(name= "Price of Diamond")
 
+ggplot(diamonds, aes(carat,price, color=price))+ geom_point()+ theme(legend.position="top")+ scale_color_viridis(name= "Price of Diamond", option="C", discrete=FALSE)
 ```
 
 ### Practice:
 
 1) make a graph of disp and hp from mtcars. Include miles per gallon as a third variable
 ```{r}
-
+data(mtcars)
+ggplot(mtcars, aes(hp, disp, color= mpg))+ geom_point()+scale_color_viridis(option="D", discrete=FALSE)
 ```
 
 2) Move the legend to the top of the graph
 ```{r}
+ggplot(mtcars, aes(hp, disp, color= mpg))+ geom_point()+scale_color_viridis(option="D", discrete=FALSE) + theme(legend.position="top")
 
 ```
 
 3) Remove the legend from the graph 
 ```{r}
-
+ggplot(mtcars, aes(hp, disp, color= mpg))+ geom_point()+scale_color_viridis(option="D", discrete=FALSE) + theme(legend.position="none")
 ```
 
 4) Change the title of the legend
 ```{r}
-
+ggplot(mtcars, aes(hp, disp, color= mpg))+ geom_point()+scale_color_viridis(name= "miles per gallon", option="D", discrete=FALSE) + theme(legend.position="top")
 ```
 
 ### Learning Outcome 2: Describe how to use facet wrap
@@ -75,26 +72,34 @@ Facet Wrap allows us to incorporate a third variable in another way. Specificall
 
 we need to make a graph and save it (we'll use carat and price)
 ```{r}
-
+caratPriceGraph<-ggplot(diamonds, aes(carat, price, color= cut))+ geom_point()+ scale_color_viridis(option="B", discrete= TRUE)
 ```
 then we'll use cut to create the facets
 ```{r}
+caratPriceGraph + facet_wrap(~cut)
 
+ggplot(diamonds, aes(carat, price, color= cut))+ geom_point()+ scale_color_viridis(option="B", discrete= TRUE)+ facet_wrap(~cut)
 ```
 
+```{r}
+ggplot(diamonds, aes(carat, price, color=cut))+geom_point()+scale_color_viridis(option ="F", discrete=TRUE)+ facet_grid(~color)
+```
 
 ### Practice: 
 1) create a facet wrap graph to generate a scatterplot of mpg and hp based on the number of cylinders a car has
 ```{r}
+cylMpgGraph<- ggplot(mtcars, aes(mpg, hp, color= cyl))+ geom_point()+ scale_color_viridis(option="C", discrete=FALSE)
+cylMpgGraph+ facet_wrap(~cyl)+ theme_dark()
 
+ggplot(mtcars, aes(mpg, hp))+geom_point()+facet_wrap(~cyl)
 ```
 
 ### Learning Outcome 3: Explain how to export graphs
 to export graphs, I use the command `ggsave()`
 Specifically, you can use the following arguments: 
-`ggsave("name of graph", width, height, units, dpi)
+`ggsave("name of graph", width, height, units, dpi)`
 ```{r}
-
+ggsave("LearningOutcome2-PracticeQuestion.tiff", width= 10, height= 10, units="in", dpi=300)
 ```
 I don't usually specify a path in ggsave, but make sure my r code is in the directory I'd like it to be saved in. you can check your working directory by using this code
 ```{r}
