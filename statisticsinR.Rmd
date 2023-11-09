@@ -20,13 +20,27 @@ We'll simulate data to use throughout today's class:
 To do this, we'll use a couple of functions we've used before: `set.seed()`, `rep()`, and `sample()`
 
 **Question**: What research question do we want to focus on? 
+sleep and memory 
 ```{r}
+set.seed(96)
 
+participant<- 1:500
+hoursSlept<-sample(0:24, 500,replace = TRUE) # people can sleep 0 to 24 hours
+# recall score; participants given 15 items
+memory<- sample(0:15, 500, replace= TRUE)
+qualityofSleep<- sample(1:5, 500, replace= TRUE) #ask participants to rate sleep from 1 = really bad -5= really good 
+interuptionsOfSleep<- sample(1:5, 500, replace=TRUE) #1 = none; 5= many
+sleepAid<- sample(c("yes", "no"), 500, replace =TRUE)
+caffeine<- abs(sample(rnorm(500, mean= 1.5, sd= .5), 500, replace=TRUE))
+#average 1.5; sd= .5 
+dreams<- sample(c("yes","no"), 500, replace=TRUE)
+sleepEnvironment<- sample(c("dorm", "house","apartment","outside","car", "airplane","hostel","hotel"), 500, replace=TRUE)
+housemates<- sample(c("pets", "family", "roommates","gamer", "partner","kids"), 500, replace=TRUE)
+age<- abs(sample(c(rnorm(500, mean=65, sd= 10)), 500, replace=TRUE))
+
+dat<- cbind.data.frame(participant, hoursSlept, memory, qualityofSleep, interuptionsOfSleep, sleepAid, caffeine, dreams, sleepEnvironment, housemates, age)
 ```
 
-```{r}
-
-```
 
 ### Learning Outcome 1: Obtaining descriptive statistics in R
 We've gone through some of these already, but I want to make sure we're on the same page. For descriptive statistics, we'll mostly focus on the measures of central tendency and measures of variability. 
@@ -35,20 +49,22 @@ We've gone through some of these already, but I want to make sure we're on the s
 
 ##### Mean 
 ```{r}
-
+mean(dat$memory)
 ```
-
 ##### Median
 ```{r}
-
+median(dat$memory)
 ```
-
 ##### Mode
 ```{r}
-
+library(modeest)
+mfv(dat$memory)
 ```
 graph
 ```{r}
+library(ggplot2)
+ggplot(dat, aes(memory))+ geom_histogram()
+ggplot(dat, aes(memory))+ geom_boxplot()
 
 ```
 
@@ -56,27 +72,30 @@ graph
 
 ##### Range
 ```{r}
-
+range(dat$memory)
+15-0
+range(dat$memory)[2]- range(dat$memory)[1]
 ```
 
 ##### Interquartile Range
 ```{r}
-
+IQR(dat$memory)
 ```
 
 ##### Standard Deviation
 ```{r}
-
+sd(dat$memory)
 ```
 
 ##### Variance
 ```{r}
-
+sd(dat$memory)^2
+var(dat$memory)
 ```
 
 ##### Summary
 ```{r}
-
+summary(dat$memory)
 ```
 
 #### Z Score
@@ -84,26 +103,36 @@ graph
 The other thing that we'll put in this section is how to create a z score in your data. This allows us to view one score relative to others, even if they are collected from different distributions
 
 ```{r}
-
+library(tidyverse)
+dat$memoryZ<-scale(dat$memory)
+dat%>%select(memory, memoryZ)
 ```
 
 ##### Learning Outcome 1 Practice
 1) calculate the mean, median, and mode for any data in the our Dataset
 ```{r}
-
+summary(dat$hoursSlept)
+mfv(dat$hoursSlept)
 ```
+
 2) what do you notice about these scores? (are they the same? different?)
+mean and median are very similar, mode is relatively close but different
 
-
-
-3) create z scores for any data in the iceCream Dataset. Interpret what participant 3's z score means. 
+3) create z scores for any data in our Dataset. Interpret what participant 3's z score means. 
 ```{r}
+dat$hoursSleptz<-scale(dat$hoursSlept) 
+dat%>%select(participant,hoursSlept,hoursSleptz)
+```
+their amount slept is .27 standard deviations above the mean 
+```{r}
+dat %>% filter(participant ==3)%>% select(hoursSlept, hoursSleptz)
 
+dat$hoursSleptz[dat$participant==3]
 ```
 
-*Challenge* Graph your data and include the mean median and mode on the graph 
+ *Challenge* Graph your data and include the mean median and mode on the graph 
 ```{r}
-
+ggplot(dat, aes(hoursSlept))+ geom_histogram()+geom_vline(xintercept= median(hoursSlept), color= "green", size= 1)+ geom_vline(xintercept=mfv(hoursSlept), color= "blue", size= 1)+geom_vline(xintercept = mean(hoursSlept), color= "red", size= 1) 
 ```
 
 ### Learning Outcome 2: Conduct common parametric analyses in R
