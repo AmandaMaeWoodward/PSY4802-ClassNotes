@@ -1,0 +1,109 @@
+---
+title: "Mixed Models"
+author: "Amanda Mae Woodward"
+date: "11/5/2023"
+output: html_document
+---
+
+# Learning Outcomes:
+Our learning outcomes for today are:
+1) Compute a Logistic Regression
+2) Compute linear mixed models
+
+
+# Pre learning outcome 1: Checking in about interpretations
+Where are we? What questions do you have about R output? 
+
+# Learning Outcome 1: Logistic Regression
+Logistic regression is similar to linear regression, except the outcome variable is dichotomous (two options). To run a linear regression, we need some data. Let's use mtcars: 
+
+The way to run a logistic regression is to use the function glm(). glm stands for "Generalized Linear Model," and this function can be used for other types of regression. The syntax is similar to what we use in linear regression:
+glm(DV~IV, data=, family="binomial") 
+```{r}
+
+```
+
+Practice: 
+1) create a logistic regression predicting engine shape from mpg. 
+```{r}
+
+```
+
+```{r}
+
+```
+
+# Learning Outcome 2: Mixed Models
+Linear Mixed Models are going to be our first "advanced" R programming topic. For these, the idea is to introduce you to a more advanced statistical technique than what you've covered in PSY3801. 
+
+**So what are mixed models?**
+Linear Mixed models can go by a couple of other names, but generally refer to a statistical technique we can use when we have longitudinal, hierarchical, or non independent data. (we'll talk about what each of these words means from a statistical sense to make sure that we're all on the same page.)
+
+Linear mixed models allow us to account for two types of effects: Fixed Effects and Random effects. There are a couple of ways people talk about these, but what we'll use are the following definitions: 
+fixed effect- constant across individuals
+random effect- vary across individuals 
+
+To create a mixed model, we'll use the lme4 package: 
+```{r}
+
+```
+
+The exact function we'll use is lmer() and works similarly to lm() 
+
+lmer(DV ~ fixed effect+(specified random effect), data= dat)
+
+
+in this case, fixed effects are entered the **same** way they are entered into a linear regression 
+
+When specifying the random components, we typically see a set up like this 
+(something|something else). 
+
+For now, we're really going to focus on some simple ways of setting up a linear mixed model, and we're glossing over some stuff (like whether we should be using a **generalized linear mixed model**). If you have questions for your specific project, please let me know. 
+
+To specify (something| something else), we are going to look at a couple of examples: 
+
+(1|subject)- specifies that we'll have a random intercept for each participant. 
+
+To illustrate this, I will graph our ChickWeight data (x - time. y = point)
+```{r}
+data(ChickWeight)
+library(ggplot2)
+ggplot(ChickWeight, aes(Time, weight))+geom_point()+ geom_smooth(method="lm")+facet_wrap(~Chick)
+
+```
+```{r}
+
+```
+**Practice:** 
+1. open the sleep study dataset
+```{r}
+
+```
+
+2. read the help file to make sure you understand what the data are
+```{r}
+
+```
+
+3. create a graph for each participant depicting their reaction time and the number of days of deprivation
+```{r}
+
+```
+
+4. Run a linear mixed model with a random intercept. 
+```{r}
+
+```
+
+It is also possible to specify a random slope in a linear mixed model. 
+```{r}
+randomSlope<-lmerTest::lmer(weight ~Time + (Diet|Chick), data=ChickWeight)
+summary(randomSlope)
+```
+**Practice** 
+1) create a model with a random slope and intercept for the sleepstudy data. 
+```{r}
+lmer(Reaction ~ Days + (Days|Subject), data=sleepstudy)
+```
+
+
