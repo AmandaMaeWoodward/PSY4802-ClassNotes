@@ -143,29 +143,29 @@ Now that we have covered some descriptive statistics, we'll talk about parametri
 We'll practice running correlations using the dataset above. To do this, we'll look at the correlation between price and rating. 
 `cor(x, y)`
 ```{r}
-
+cor(dat$hoursSlept, dat$memory)
 ```
 **Note:** It's great that we can see the correlation between these two measures, but we don't have any additional information, ie information related to significance.We can use another function, `cor.test()`, to get information about significance.
 `cor.test(x,y)`
 ```{r}
-
+cor.test(dat$hoursSlept, dat$memory)
 ```
 graph
 ```{r}
-
+ggplot(dat, aes(hoursSlept, memory))+ geom_point()+geom_smooth(method="lm")
 ```
 
 We can change whether we our conducting a one tailed or a two tailed test by including an additional argument "alternative." It defaults to a two tailed test, but we can specify a one tailed test in either direction ("greater" or "less") 
 ```{r}
-
+cor.test(dat$hoursSlept, dat$memory, alternative= "greater") 
 ```
 
 ### Extra Code about Correlation Tables 
 `cor()` can also be used to create correlation matrices, but need to create a dataframe that is just the variables you'd like to use. 
 `cor(data)`
-we'll do a quick example w/ mt cars
 ```{r}
-
+corTable<- dat %>% select(hoursSlept, memory, caffeine, age)
+cor(corTable)
 ```
 
 #### t-tests
@@ -175,13 +175,17 @@ We can run a variety of t-tests using the same function `t.test()`.
 A one sample t test can be computed by specifying mu in the arguments. 
 `t.test(variable, mu)`
 ```{r}
-
+#compare memory score to chance 
+# what is chance? 1/2 of items or 7.5
+t.test(dat$memory, mu= 7.5)
 ```
 
 ##### two samples t-test
 There are two ways we can use this function when we have two variables (independent or paired). The first is to type our x and y variables in as we did in the correlation function above. 
 ```{r}
-
+data(mtcars)
+"t.test(group1, group2)"
+t.test()
 ```
 You'll notice that the top of the t-test output says "Welch's Two sample t-test." This R function automatically assumes that the variances of each group are unequal. If we wanted to run a traditional paired-samples t-test, we need to include another argument. 
 
@@ -190,13 +194,11 @@ we can type them in as a formula in R. Formulas typically take the form y ~ x. T
 `t.test(dependent variable ~ indepedent variable, data= dataframe)`
 
 ```{r}
-
-```
-This changes the t test arguments to: 
-`t.test(formula, data)`
-let's use am and mpg
-```{r}
-
+#LOOK AT YOUR DATA
+t.test(mtcars$mpg, mtcars$am, var.equal=TRUE) #do not do this!!!!!!!!!!!!!!!!!!!
+"t.test(y ~x )"
+t.test(mpg~ am, data=mtcars, var.equal= TRUE)
+t.test(mpg~ am, data=mtcars) #this is a welch's t test
 ```
 If our data were dependent between observations, we'll run a paired samples t test. The code looks pretty similar to above, but we'll use an additional argument. 
 
