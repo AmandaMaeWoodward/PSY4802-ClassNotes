@@ -204,33 +204,35 @@ If our data were dependent between observations, we'll run a paired samples t te
 
 let's use the sleep datset as an example
 ```{r}
-
+data(sleep)
+t.test(extra ~ group, data=sleep, paired=TRUE)
 ```
 
 Finally, we some times run one tailed vs two tailed tests, just like we did with the correlations. 
 ```{r}
-
+t.test(extra~group, data=sleep, paired=TRUE, alternative="less")
 ```
 
 ##### Correlation and T-test practice
 1. Open the mtcars dataset. Find the correlation between mpg and hp
 ```{r}
-
+data(mtcars)
+cor(mtcars$mpg, mtcars$hp)
 ```
 
 2. Conduct a significance test to determine if displacement and miles per gallon significantly correlated. 
 ```{r}
-
+cor.test(mtcars$disp, mtcars$mpg)
 ```
 
 3. Conduct a two-tailed t-test examining whether the average mpg differs by transmission (am). 
 ```{r}
-
+t.test(mtcars$mpg ~ mtcars$am, alternative= "two.sided")
 ```
 
 4. Conduct a one-tailed t-test examining whether the average displacement(disp) differs engine shape (vs). Specifically, test whether straight engines result in higher displacements.
 ```{r}
-
+t.test(disp~vs, data=mtcars, alternative= "greater", var.equal=TRUE)
 ```
 
 
@@ -238,36 +240,43 @@ Finally, we some times run one tailed vs two tailed tests, just like we did with
 Back to the simulated Dataset we made. The code for a linear regression is really similar (ie identical)  to what we used for t-tests.
 `lm(DV ~ IV, data)`
 ```{r}
-
+colnames(dat)
+lm(memory ~ hoursSlept, data=dat)
 ```
 I tend to save my linear models because it allows me to do a few useful things:
 Just like we used   `summary()` to get a summary of our data, we can use the same function to learn more about our models
 ```{r}
-
+sleepMemoryRegression<- lm(memory~ hoursSlept, data=dat) 
+summary(sleepMemoryRegression)
 ```
 `str()` is a function that allows us to learn about the structure of our model. We can use this to get specific pieces of information, or additional information that "underlies" our model (eg residuals and fitted values)
 ```{r}
+str(sleepMemoryRegression)
+sleepMemoryRegression$coefficients[1]
 
-```
-
-```{r}
-
+sleepMemoryRegression$residuals # provides error for each datapoint 
+sleepMemoryRegression$fitted.values #gives y hat or predicted y score from regression equation
 ```
 
 **Multiple Regression**
 We can include additional factors and interaction terms to our models: 
 
 ```{r}
-
+sleepModelTwo<- lm(memory ~ hoursSlept + qualityofSleep, data=dat)
+summary(sleepModelTwo)
 ```
 Using * instead of + will include both the individual predictors AND their interactions
 ```{r}
+dat$qualityofSleep<- as.factor(dat$qualityofSleep)
+sleepModelThree<- lm(memory ~ hoursSlept * qualityofSleep, data=dat)
+summary(sleepModelThree)
 
+ggplot(dat, aes(hoursSlept, memory, color= qualityofSleep))+ geom_point()+ geom_smooth(method= "lm")
 ```
  
 The : can be used instead of + to include an interaction in your model
 ```{r}
-
+lm(memory~ hoursSlept+ qualityofSleep+ hoursSlept:qualityofSleep, data=dat)
 ```
 
 The class of our data and the way data are entered matter for regression models. 
@@ -277,9 +286,7 @@ Data don't really look continuous. We can change age to a factor. This will infl
 
 We may also need to change the reference level for factors.
 `relevel(dat$age, ref="x")`
-```{r}
 
-```
 
 **Anova**
 There are several ways you can get Anova results in R. There are differences in the ways that they handle interactions, but they are used in the same way. We can use `aov()`, `anova()`, and `Anova()`
