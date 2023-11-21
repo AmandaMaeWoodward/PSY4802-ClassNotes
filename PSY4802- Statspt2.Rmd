@@ -7,14 +7,21 @@ output: html_document
 
 # Learning Outcomes:
 Our learning outcomes for today are:
-1) Compute a Logistic Regression
-2) Compute linear mixed models
+1) Complete a dominance analysis 
+2) Compute a Logistic Regression
+3) Compute linear mixed models
 
 
 # Pre learning outcome 1: Checking in about interpretations
 Where are we? What questions do you have about R output? 
 
-# Learning Outcome 1: Logistic Regression
+# Learning Outcome 1: Dominance Analysis
+Dominance analyses get at the relative importance of each predictor in our model. 
+
+Dominance analyses allow us to address questions about which predictors are most important in understanding our dependent variable. 
+
+Dominance analyses allow us to address this while avoiding problems associated with unstandardized coefficients (different scales) and standardized coefficients (correlations between predictors)
+# Learning Outcome 2: Logistic Regression
 Logistic regression is similar to linear regression, except the outcome variable is dichotomous (two options). To run a linear regression, we need some data. Let's use mtcars: 
 
 The way to run a logistic regression is to use the function glm(). glm stands for "Generalized Linear Model," and this function can be used for other types of regression. The syntax is similar to what we use in linear regression:
@@ -33,7 +40,7 @@ Practice:
 
 ```
 
-# Learning Outcome 2: Mixed Models
+# Learning Outcome 3: Mixed Models
 Linear Mixed Models are going to be our first "advanced" R programming topic. For these, the idea is to introduce you to a more advanced statistical technique than what you've covered in PSY3801. 
 
 **So what are mixed models?**
@@ -103,7 +110,7 @@ summary(randomSlope)
 **Practice** 
 1) create a model with a random slope and intercept for the sleepstudy data. 
 ```{r}
-lmer(Reaction ~ Days + (Days|Subject), data=sleepstudy)
+
 ```
 
 

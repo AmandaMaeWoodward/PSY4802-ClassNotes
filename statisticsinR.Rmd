@@ -292,42 +292,86 @@ We may also need to change the reference level for factors.
 There are several ways you can get Anova results in R. There are differences in the ways that they handle interactions, but they are used in the same way. We can use `aov()`, `anova()`, and `Anova()`
 
 ```{r}
+dat$interuptionsOfSleep<- as.factor(dat$interuptionsOfSleep)
+a1<-aov(hoursSlept ~ interuptionsOfSleep, data= dat)
+summary(a1)
 
+"post hoc test"
+TukeyHSD(a1)
+
+"effect size"
+library(lsr)
+etaSquared(a1)
 ```
-I typically use `Anova()` from the car package, but there are some exceptions. We can talk about them as they come up. 
 
-####Regression and ANOVA practice
+ more predictors!
+```{r}
+a2<- aov(hoursSlept ~ interuptionsOfSleep * sleepAid, data=dat)
+summary(a2)
+"multiple comparisons"
+TukeyHSD(a2, "sleepAid")
+postHoca2<-TukeyHSD(a2)
+postHoca2$interuptionsOfSleep
+
+"effectsize"
+etaSquared(a2)
+```
+ 
+I typically use `Anova()` from the car package, but there are some exceptions. We can talk about them as they come up. 
+```{r}
+library(car)
+Anova(lm(hoursSlept~ interuptionsOfSleep, data=dat))
+```
+
+#### Regression and ANOVA practice
 1. Use the mtcars dataset and create a linear model that predicts mpg from cylinder (cyl) and displacement. Print the results
 ```{r}
+data(mtcars)
+colnames(mtcars)
+lm(mpg ~ cyl + disp, data=mtcars) # with no interaction 
 
 ```
 
 2. Create the same model, but include an interaction term. 
 ```{r}
-
+lm(mpg~cyl*disp, data=mtcars) #with interaction
+library(ggplot2)
+ggplot(mtcars, aes(disp, mpg, color= as.factor(cyl)))+ geom_point()+geom_smooth(method="lm")
 ```
 
 3. Run an ANOVA predicting hp from the transmission variable. 
 ```{r}
-
+aov(hp~am, data=mtcars)
 ```
+
 ###Learning Outcome 3: Nonparametric analyses in R
 Nonparametric analyses are run similarly to their parametric versions. In the interest of time, we'll talk about biserial correlations, spearman correlations, Wilcoxon sign rank tests, and binomial tests. 
 
 **biserial correlations**
 Biserial correlations involve a binary outcome and a continuous variable. To run one in R, we need the ltm package. 
 ```{r}
-
+library(ltm)
 ```
 the function is `biserial.cor(continuous, binary)`
 ```{r}
-
+ggplot(mtcars, aes(am, mpg))+ geom_point()+ geom_smooth(method="lm")
+biserial.cor(mtcars$mpg, mtcars$am, level= 2)
 ```
 Mathematically, this is the same as the pearson's version. 
+```{r}
+cor(mtcars$am,mtcars$mpg)
+```
 
 **spearman's rho**
 We can calculate spearman's rho and kendall's tau the same way. We just need to use the "method" argument for `cor.test()`
 ```{r}
+ggplot(mtcars, aes(mpg, hp))+ geom_point()+geom_smooth(method="lm")
+cor(mtcars$mpg, mtcars$hp)
+cor(mtcars$mpg, mtcars$hp, method= "spearman")
+cor(mtcars$mpg, mtcars$hp, method= "kendall")
+
+cor(mtcars$cyl, mtcars$mpg, method="spearman")
+cor(mtcars$cyl, mtcars$mpg, method="kendall")
 
 ```
 
@@ -335,26 +379,26 @@ We can calculate spearman's rho and kendall's tau the same way. We just need to 
 This is the nonparametric version of the t-test. It has the same arguments. We'll do one as an example. 
 `wilcox.test()`
 ```{r}
-
-
+"cyl across am "
+wilcox.test(mtcars$cyl~mtcars$am)
 ```
 
 **binomial tests**
 We use binomial tests to determine if something happens more often than chance. The function is binom.test and it has the following arguments: 
 `binom.test(successes, totalScores, probability)`
 ```{r}
-
+binom.test(42, 100, p = .5)
 ```
 
 for instance, if we have 10 true/false statements, and get 6 right. Does this differ from chance? 
 ```{r}
-
+binom.test(6, 10, p = .5)
 ```
 This is a two-tailed test, but can also do one tailed by specifying the alternative. 
 
 20 questions, 5 choices, and want to know probability of getting 14 correct
 ```{r}
-
+binom.test(14,20, p= .2)
 ```
 
 
@@ -368,7 +412,6 @@ This is a two-tailed test, but can also do one tailed by specifying the alternat
 ```{r}
 
 ```
-
 
 3. Run a binomial test to determine if the number of cars with manual transmission differs from chance. (hint: use the ? feature to learn more about the dataset.)
 
