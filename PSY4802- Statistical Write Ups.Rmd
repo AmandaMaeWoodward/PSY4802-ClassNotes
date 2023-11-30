@@ -1,0 +1,123 @@
+---
+title: "Statistical Write Ups and Presentation"
+author: "Amanda Mae Woodward"
+date: "2023-11-30"
+output: html_document
+---
+
+The goal of this class is to help us figure out how to present our results.
+
+## Learning Outcomes:
+
+By the end of this class, students should be able to: - Describe modifications that can be made to R code chunks - Explain how to write code inline with text - Create Write Ups that combine graphs, interpretation, and analyses into a streamlined document.
+
+## Learning Outcome #1: Describe modifications that can be made to R code chunks
+
+Today we're going to focus on code chunks themselves, rather than what goes into a code chunk. You'll notice that I will be switching between knitted versions and non knitted versions throughout class. This is to help us get a sense of what these options do to our codes.
+
+**Disclaimer:** This is going to be a brief introduction. You can write full APA style papers in R Markdown files, and this is typically easier if you use LaTex code. If you are interested in learning more about this option, here is a good resource for it: <a href= "https://psychstatsworkshop.wordpress.com/2016/04/24/write-apa-style-manuscripts-directly-in-rstudio/">psychstatsworkshop</a>
+
+### Changing Code Chunks
+
+When we are making documents in R Markdown, we don't always want people to see all of our code and all of our output. We can modify our code chunks to make "hide" certain aspects of code.
+
+1.  **echo:**
+
+-   if TRUE, shows code in knitted file
+-   if FALSE, does not show code
+
+```{r testEchoTrue, echo=TRUE}
+data(mtcars)
+mean(mtcars$mpg)
+```
+
+```{r testEchoFALSE, echo=FALSE}
+mean(mtcars$mpg)
+```
+
+2. **include:** 
+- if TRUE, code and output are included in the file
+- if FALSE, code and output are not included in the file
+
+```{r testIncludeTRUE, include=TRUE}
+library(ggplot2)
+ggplot(mtcars, aes(mpg, hp))+geom_point()+theme_classic()
+```
+
+```{r testIncludeFALSE, include=FALSE}
+library(ggplot2)
+ggplot(mtcars, aes(cyl))+geom_bar()+theme_classic()
+```
+
+3. **error:**
+- if TRUE, prints error messages in document
+- if FALSE, does not print error messages
+
+4. **message and warning:**
+- two separate options
+- if TRUE, includes R messages and warnings in your document
+- if FALSE, does not include R messages or warnings
+
+### Practice: 
+Try these on your own! 
+Create a code chunk with a graph of your favorite data this semester. 
+1. What happens if you use echo= FALSE? 
+2. What happesn if you use include FALSE?
+3. Try combining multiple arguments in your code chunk (pick your favorites). 
+
+### More resources: 
+<a href= "https://posit.co/blog/the-r-markdown-cheat-sheet/">The R/Posit Cloud Cheatsheets</a> have a whole list of things you can include or not.  
+
+## Learning Outcome #2: Explain how to write code inline with text
+
+You can also use r code inline (meaning in your actual sentences), rather than in code chunks. The way to set this up is to use ``. 
+
+If you want to highlight something is code, but not run it, you can do something like `mean(data$column)`. 
+
+If you want to actually run R code, you need to modify it slightly to `r "insert code here."` For instance, we could do "the mean of the mpg column is `r mean(mtcars$mpg)`
+
+### Practice: 
+Try Writing a sentence with any calculation you'd like in it. 
+
+## Learning Outcome #3:Create Write Ups that combine graphs, interpretation, and analyses into a streamlined document.
+
+Of course, we likely want to include tables and graphs in our write ups. We can do this, but it is helpful to use multiple code chunks and save information as needed. 
+
+## Example: 
+
+```{r, echo= FALSE, results= FALSE, message=FALSE}
+#install.packages("palmerpenguins")
+library(palmerpenguins)
+library(tidyverse)
+data(penguins)
+#get table of species and mean flipper
+penguinFlipper<-penguins %>% 
+  group_by(species) %>% 
+  summarize(meanFlipper= mean(flipper_length_mm, na.rm=TRUE))
+```
+
+#### Results: 
+
+In the current study, we had `r nrow(penguins)` penguins participate. We collected average flipper lengths, which can be seen in table 1. 
+
+**Table 1**
+```{r, results= FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+```
+
+```{r, echo=FALSE}
+kable(penguinFlipper,caption ="average flipper length")
+```
+
+### Practice:
+As a class, let's come up with something we want to analyze and create results for from the penguins dataset. 
+
+- What's the research question? 
+- descriptive statistics? 
+- inferential statistic? 
+- how to present results? (table, graph, both?!)
+
+### APA version of tables: 
+
+We don't always want just a table of counts, or we may want to format statistical output in APA. To do so, the library `apaTables` has code to report several different types of statistics. Code can be found <a href= "https://bookdown.org/yihui/rmarkdown-cookbook/hide-one.html"> here </a>
+

@@ -21,13 +21,34 @@ Dominance analyses get at the relative importance of each predictor in our model
 Dominance analyses allow us to address questions about which predictors are most important in understanding our dependent variable. 
 
 Dominance analyses allow us to address this while avoiding problems associated with unstandardized coefficients (different scales) and standardized coefficients (correlations between predictors)
+
+Load Library 
+```{r}
+#install.packages("domir")
+library(domir)
+```
+
+Next Step: create a multiple regression
+```{r}
+data(mtcars)
+
+carsModel<- lm(mpg~ am+ cyl+ carb, data=mtcars)
+summary(carsModel)
+```
+next step: dominance analysis
+```{r}
+domin(mpg~ am+ cyl+ carb, lm, list(summary, "r.squared"), data=mtcars)
+```
+
 # Learning Outcome 2: Logistic Regression
 Logistic regression is similar to linear regression, except the outcome variable is dichotomous (two options). To run a linear regression, we need some data. Let's use mtcars: 
 
 The way to run a logistic regression is to use the function glm(). glm stands for "Generalized Linear Model," and this function can be used for other types of regression. The syntax is similar to what we use in linear regression:
 glm(DV~IV, data=, family="binomial") 
 ```{r}
-
+library(lme4)
+logisticRegression<- glm(am ~ gear, data= mtcars, family= "binomial")
+summary(logisticRegression)
 ```
 
 Practice: 
